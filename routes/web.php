@@ -23,6 +23,7 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::post('/settings', [AdminController::class, 'updateSettings'])->name('settings.update');
     
     // Admin User CRUD Management
     Route::get('/users', [AdminController::class, 'listUsers'])->name('users');

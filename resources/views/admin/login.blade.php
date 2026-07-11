@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,42 +17,59 @@
 
     <style>
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #FFFDF5;
-            color: #1A1A2E;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
         }
         .bg-mesh {
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(245, 197, 24, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(232, 165, 152, 0.1) 0px, transparent 50%);
+            background-color: #FFFFFF;
         }
         .gold-text-gradient {
-            background: linear-gradient(135deg, #d97706 0%, #b45309 50%, #78350f 100%);
+            background: linear-gradient(90deg, #D4AF37 0%, #F5D061 50%, #D4AF37 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: goldShineText 3s linear infinite;
         }
         .glass-panel {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(245, 197, 24, 0.25);
+            background: #FFFFFF;
+            border: 1px solid #F1F5F9;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        @keyframes goldShineText {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+        .btn-gold-shine {
+            background: linear-gradient(90deg, #D4AF37 0%, #F5D061 50%, #D4AF37 100%);
+            background-size: 200% auto;
+            color: #2C2416 !important;
+            font-weight: 700;
+            transition: all 0.35s ease;
+            animation: goldShineText 3s linear infinite;
+            border: none;
+        }
+        .btn-gold-shine:hover {
+            background-position: right center;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+            transform: translateY(-1px);
+        }
+        .gold-glow {
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.12);
         }
     </style>
 </head>
 <body class="bg-mesh min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
 
-    <!-- Ambient glowing orbs -->
-    <div class="absolute w-96 h-96 rounded-full bg-amber-200/30 blur-[100px] -top-20 -left-20 pointer-events-none"></div>
-    <div class="absolute w-96 h-96 rounded-full bg-rose-200/20 blur-[100px] -bottom-20 -right-20 pointer-events-none"></div>
-
-    <div class="w-full max-w-md glass-panel rounded-3xl p-8 shadow-2xl relative">
+    <div class="w-full max-w-md glass-panel rounded-3xl p-8 shadow-2xl relative gold-glow">
         <!-- Brand logo -->
         <div class="flex flex-col items-center text-center mb-8">
             <!-- Logo -->
             <div class="w-20 h-20 flex items-center justify-center mb-4 overflow-hidden shrink-0">
                 <img src="/images/logo_vogma.png" alt="Logo" class="h-full w-full object-contain">
             </div>
-            <h2 class="text-xs uppercase tracking-[0.2em] text-amber-700 font-bold leading-none">ADMINISTRATOR</h2>
+            <h2 class="text-xs uppercase tracking-[0.2em] text-[#D4AF37] font-bold leading-none">ADMINISTRATOR</h2>
             <h1 class="text-xl md:text-2xl font-serif font-bold text-slate-800 mt-2">Prince & Princess English Department</h1>
         </div>
 
@@ -76,16 +93,16 @@
             @csrf
             
             <div>
-                <label for="email" class="block text-xs uppercase tracking-wider text-amber-700 font-bold mb-2">Alamat Email</label>
+                <label for="email" class="block text-xs uppercase tracking-wider text-[#D4AF37] font-bold mb-2">Alamat Email</label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus placeholder="Email Address" 
-                       class="w-full px-4 py-3.5 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
+                       class="w-full px-4 py-3.5 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
             </div>
 
             <div>
-                <label for="password" class="block text-xs uppercase tracking-wider text-amber-700 font-bold mb-2">Kata Sandi</label>
+                <label for="password" class="block text-xs uppercase tracking-wider text-[#D4AF37] font-bold mb-2">Kata Sandi</label>
                 <div class="relative">
                     <input type="password" id="password" name="password" required placeholder="••••••••" 
-                           class="w-full pl-4 pr-12 py-3.5 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
+                           class="w-full pl-4 pr-12 py-3.5 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
                     <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-700 focus:outline-none">
                         <!-- Eye Icon (Open by default) -->
                         <svg id="eye-icon-open" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -102,13 +119,13 @@
 
             <div class="flex items-center justify-between text-xs py-1">
                 <label class="flex items-center gap-2 cursor-pointer text-slate-600 hover:text-slate-800 transition-colors font-medium">
-                    <input type="checkbox" name="remember" class="rounded bg-white border-amber-300 text-amber-500 focus:ring-0">
+                    <input type="checkbox" name="remember" class="rounded bg-white border-[#D4AF37]/30 text-[#D4AF37] focus:ring-0">
                     Ingat Saya
                 </label>
-                <a href="/" class="text-amber-700 hover:text-amber-600 font-bold">Kembali ke Portal</a>
+                <a href="/" class="text-[#D4AF37] hover:text-[#C5A028] font-bold">Kembali ke Portal</a>
             </div>
 
-            <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 font-bold tracking-wider hover:shadow-lg hover:shadow-amber-500/20 transition-all text-xs uppercase mt-8">
+            <button type="submit" class="w-full py-4 rounded-xl btn-gold-shine text-[#2C2416] font-bold tracking-wider hover:shadow-lg transition-all text-xs uppercase mt-8 cursor-pointer shadow-md">
                 Login
             </button>
         </form>

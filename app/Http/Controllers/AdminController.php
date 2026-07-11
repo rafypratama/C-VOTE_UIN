@@ -82,6 +82,10 @@ class AdminController extends Controller
             ->orderBy('total_votes', 'desc')
             ->get();
 
+        $votingStart = \App\Models\Setting::getValue('voting_start', now()->toDateTimeString());
+        $votingEnd = \App\Models\Setting::getValue('voting_end', now()->addDays(12)->toDateTimeString());
+        $eventYear = \App\Models\Setting::getValue('event_year', '2026');
+
         return view('admin.dashboard', compact(
             'totalRevenue',
             'totalVotes',
@@ -91,8 +95,29 @@ class AdminController extends Controller
             'princeCandidates',
             'princessCandidates',
             'recentTransactions',
-            'facultyVotes'
+            'facultyVotes',
+            'votingStart',
+            'votingEnd',
+            'eventYear'
         ));
+    }
+
+    /**
+     * Update voting time settings.
+     */
+    public function updateSettings(Request $request)
+    {
+        $request->validate([
+            'voting_start' => 'required|date',
+            'voting_end' => 'required|date|after:voting_start',
+            'event_year' => 'required|integer|min:2000|max:2100',
+        ]);
+
+        \App\Models\Setting::setValue('voting_start', $request->voting_start);
+        \App\Models\Setting::setValue('voting_end', $request->voting_end);
+        \App\Models\Setting::setValue('event_year', $request->event_year);
+
+        return redirect()->back()->with('success', 'Pengaturan e-voting berhasil diperbarui!');
     }
 
     /**

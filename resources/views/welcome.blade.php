@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>E-Voting Prince & Princess English Department UIN Madura 2026</title>
+    <title>E-Voting Prince & Princess English Department UIN Madura {{ \App\Models\Setting::getValue('event_year', '2026') }}</title>
     <link rel="icon" type="image/png" href="/images/favicon.png?v=3">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,127 +21,266 @@
     <!-- Custom Luxury Styling -->
     <style>
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #FFFDF5;
-            color: #1A1A2E;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
             overflow-x: hidden;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
         .font-serif {
-            font-family: 'Playfair Display', serif;
+            font-family: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
         }
 
-        /* Royal Cream & Gold Gradients with Royal Damask Motif */
+        /* Alternating warm sections */
         .bg-mesh {
-            background-color: #FFFDF5;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(245, 197, 24, 0.08) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(232, 165, 152, 0.08) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(232, 229, 248, 0.3) 0px, transparent 60%);
+            background-color: #FFFFFF;
+        }
+
+        .section-warm {
+            background-color: #FAF8F4;
+        }
+
+        .section-cream {
+            background-color: #F7F4EE;
+        }
+
+        @keyframes goldShineText {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
         }
 
         .gold-glow {
-            box-shadow: 0 10px 30px rgba(245, 197, 24, 0.15);
+            box-shadow: 0 8px 24px rgba(212, 175, 55, 0.12);
         }
 
         .gold-border {
-            border: 1px solid rgba(245, 197, 24, 0.25);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .gold-border-hover {
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            transition: all 0.35s ease;
         }
 
         .gold-border-hover:hover {
-            border-color: rgba(245, 197, 24, 0.7);
-            box-shadow: 0 12px 32px rgba(245, 197, 24, 0.18);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 12px 32px rgba(212, 175, 55, 0.18);
             transform: translateY(-6px);
         }
 
         .gold-text-gradient {
-            background: linear-gradient(135deg, #F5C518 0%, #D97706 50%, #C69B00 100%);
+            background: linear-gradient(90deg, #D4AF37 0%, #F5D061 25%, #FFF5CC 50%, #F5D061 75%, #D4AF37 100%);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: goldShineText 4s linear infinite;
         }
 
         .purple-text-gradient {
-            background: linear-gradient(135deg, #7c3aed 0%, #4c1d95 50%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #6366F1;
         }
 
-        /* Glassmorphism base for light theme */
+        /* Premium Panels */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(245, 197, 24, 0.15);
+            background: #FFFFFF;
+            border: 1px solid #EDE8DD;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 16px rgba(0, 0, 0, 0.03);
         }
 
         .glass-navbar {
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(245, 197, 24, 0.2);
-            box-shadow: 0 4px 25px rgba(26, 26, 46, 0.04);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
         }
 
-        /* Card 3D Tilt Effect */
         .candidate-card {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            background: #FFFFFF;
+        }
+
+        .candidate-card:hover {
+            background: #FDFCFA;
+        }
+
+        /* Decorative section divider */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: #D4AF37;
+            opacity: 0.5;
+        }
+        .section-divider span {
+            color: #D4AF37;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: #FFFDF5;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: #E8A598;
-            border-radius: 4px;
+            background: #D4CFC5;
+            border-radius: 3px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #F5C518;
+            background: #D4AF37;
         }
 
-        /* Dynamic Animations */
         @keyframes floatCrown {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50%       { transform: translateY(-6px) rotate(2deg); }
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+                filter: drop-shadow(0 4px 6px rgba(212, 175, 55, 0.4)) brightness(1); 
+            }
+            50% { 
+                transform: translateY(-8px) rotate(3deg); 
+                filter: drop-shadow(0 12px 22px rgba(212, 175, 55, 0.8)) brightness(1.25); 
+            }
         }
         .animate-float-crown {
             animation: floatCrown 3s ease-in-out infinite;
+            display: inline-block;
         }
 
-        @keyframes shimmer {
-            0%   { background-position: -200% center; }
-            100% { background-position: 200% center; }
+        /* Podium Shimmer & Glow Animations */
+        @keyframes podiumGlowGold {
+            0%, 100% { 
+                box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.2), 0 8px 10px -6px rgba(212, 175, 55, 0.2), inset 0 0 12px rgba(212, 175, 55, 0.1); 
+                border-color: rgba(212, 175, 55, 0.4); 
+            }
+            50% { 
+                box-shadow: 0 20px 35px -5px rgba(212, 175, 55, 0.45), 0 12px 16px -6px rgba(212, 175, 55, 0.45), inset 0 0 20px rgba(212, 175, 55, 0.3); 
+                border-color: rgba(212, 175, 55, 0.8);
+            }
         }
+        @keyframes podiumGlowSilver {
+            0%, 100% { 
+                box-shadow: 0 10px 25px -5px rgba(148, 163, 184, 0.15), 0 8px 10px -6px rgba(148, 163, 184, 0.15), inset 0 0 12px rgba(148, 163, 184, 0.05); 
+                border-color: rgba(148, 163, 184, 0.3); 
+            }
+            50% { 
+                box-shadow: 0 20px 35px -5px rgba(148, 163, 184, 0.35), 0 12px 16px -6px rgba(148, 163, 184, 0.35), inset 0 0 20px rgba(148, 163, 184, 0.25); 
+                border-color: rgba(148, 163, 184, 0.6);
+            }
+        }
+        @keyframes podiumGlowBronze {
+            0%, 100% { 
+                box-shadow: 0 10px 25px -5px rgba(251, 146, 60, 0.15), 0 8px 10px -6px rgba(251, 146, 60, 0.15), inset 0 0 12px rgba(251, 146, 60, 0.05); 
+                border-color: rgba(251, 146, 60, 0.3); 
+            }
+            50% { 
+                box-shadow: 0 20px 35px -5px rgba(251, 146, 60, 0.35), 0 12px 16px -6px rgba(251, 146, 60, 0.35), inset 0 0 20px rgba(251, 146, 60, 0.25); 
+                border-color: rgba(251, 146, 60, 0.6);
+            }
+        }
+        @keyframes shineShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .gold-podium-base {
+            background: linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(251,245,183,0.7) 40%, rgba(212,175,55,0.15) 50%, rgba(251,245,183,0.7) 60%, rgba(255,255,255,0.9) 70%);
+            background-size: 300% 100%;
+            animation: shineShimmer 6s infinite linear, podiumGlowGold 3s infinite ease-in-out;
+            backdrop-filter: blur(8px);
+        }
+        .silver-podium-base {
+            background: linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(226,232,240,0.8) 40%, rgba(148,163,184,0.15) 50%, rgba(226,232,240,0.8) 60%, rgba(255,255,255,0.9) 70%);
+            background-size: 300% 100%;
+            animation: shineShimmer 6s infinite linear, podiumGlowSilver 3s infinite ease-in-out;
+            backdrop-filter: blur(8px);
+        }
+        .bronze-podium-base {
+            background: linear-gradient(120deg, rgba(255,255,255,0.9) 30%, rgba(255,237,213,0.8) 40%, rgba(251,146,60,0.1) 50%, rgba(255,237,213,0.8) 60%, rgba(255,255,255,0.9) 70%);
+            background-size: 300% 100%;
+            animation: shineShimmer 6s infinite linear, podiumGlowBronze 3s infinite ease-in-out;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Number Shimmer Animations */
+        @keyframes textShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .shimmer-text-gold {
+            background: linear-gradient(to right, #B38728 0%, #F5D061 25%, #FFFFFF 50%, #F5D061 75%, #AA771C 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: textShine 3s linear infinite;
+        }
+        .shimmer-text-silver {
+            background: linear-gradient(to right, #64748B 0%, #CBD5E1 25%, #FFFFFF 50%, #CBD5E1 75%, #475569 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: textShine 3s linear infinite;
+        }
+        .shimmer-text-bronze {
+            background: linear-gradient(to right, #C2410C 0%, #FDBA74 25%, #FFFFFF 50%, #FDBA74 75%, #9A3412 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: textShine 3s linear infinite;
+        }
+
         .btn-shimmer {
-            background: linear-gradient(90deg, #F5C518 25%, #FFF8C0 50%, #F5C518 75%);
-            background-size: 200%;
-            animation: shimmer 2s infinite linear;
+            background: linear-gradient(90deg, #D4AF37 0%, #F5D061 50%, #D4AF37 100%);
+            background-size: 200% auto;
+            color: #FFFFFF !important;
+            transition: all 0.35s ease;
+            letter-spacing: 0.05em;
+            animation: goldShineText 3s linear infinite;
+        }
+        .btn-shimmer:hover {
+            background-position: right center;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.35);
+            transform: translateY(-1px);
         }
 
-        @keyframes sparkle {
-            0%, 100% { opacity: 0.4; transform: scale(0.8); }
-            50% { opacity: 1; transform: scale(1.2); }
+        .btn-outline-gold {
+            border: 1.5px solid #D4AF37;
+            color: #D4AF37;
+            background: transparent;
+            transition: all 0.25s ease;
         }
-        .animate-sparkle {
-            animation: sparkle 2s infinite ease-in-out;
+        .btn-outline-gold:hover {
+            background: linear-gradient(90deg, #D4AF37 0%, #F5D061 50%, #D4AF37 100%);
+            background-size: 200% auto;
+            animation: goldShineText 3s linear infinite;
+            color: #FFFFFF;
+            border-color: transparent;
         }
 
         @keyframes fadeSlideUp {
-            from { opacity: 0; transform: translateY(24px); }
+            from { opacity: 0; transform: translateY(16px); }
             to   { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-up {
             opacity: 0;
-            animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fillBar {
@@ -149,58 +288,50 @@
             to   { width: var(--target-width); }
         }
         .animate-fill-bar {
-            animation: fillBar 1.2s ease-out forwards;
-        }
-
-        @keyframes pulse-gold {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-        }
-        .pulse-glow {
-            animation: pulse-gold 4s infinite;
+            animation: fillBar 1s ease-out forwards;
         }
 
         /* Hide elements helper */
         .hidden-fade {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
         }
         .show-fade {
             opacity: 1;
             pointer-events: auto;
         }
 
-        /* 🚀 High-End Premium Scroll-Reveal Animations */
+        /* Scroll-Reveal Animations */
         .reveal-element {
             opacity: 0;
-            transform: translateY(35px) scale(0.97);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
         .reveal-left {
             opacity: 0;
-            transform: translateX(-40px);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(-20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
         .reveal-right {
             opacity: 0;
-            transform: translateX(40px);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
         .reveal-scale {
             opacity: 0;
-            transform: scale(0.92);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.96);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
@@ -212,101 +343,95 @@
 </head>
 <body class="bg-mesh min-h-screen">
 
-    <!-- 🌌 Floating Particle/Ambient Lights -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute top-[10%] left-[5%] w-[35rem] h-[35rem] rounded-full bg-amber-200/30 blur-[120px] pulse-glow"></div>
-        <div class="absolute bottom-[15%] right-[5%] w-[40rem] h-[40rem] rounded-full bg-rose-200/25 blur-[150px] pulse-glow" style="animation-delay: 2s;"></div>
-    </div>
-
-    <!-- 🧭 Premium Glassmorphism Navbar -->
-    <nav class="fixed top-0 inset-x-0 z-50 glass-navbar py-3 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
-        <a href="#" class="flex items-center gap-2 md:gap-3">
-            <!-- Logo -->
-            <div class="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center overflow-hidden shrink-0">
+    <!-- Navbar -->
+    <nav class="fixed top-0 inset-x-0 z-50 glass-navbar py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300">
+        <a href="#" class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-11 md:h-11 flex items-center justify-center overflow-hidden shrink-0">
                 <img src="/images/logo_vogma.png" alt="Logo" class="h-full w-full object-contain">
             </div>
             <div>
-                <span class="block text-xs font-bold tracking-[0.1em] text-amber-600 leading-none">PRINCE & PRINCESS</span>
-                <span class="text-[8px] md:text-[9px] tracking-[0.12em] uppercase text-slate-500 block mt-0.5">English Department UIN Madura</span>
+                <span class="block text-[13px] font-semibold tracking-[0.06em] text-[#D4AF37] leading-none">Prince & Princess</span>
+                <span class="text-[10px] tracking-[0.08em] text-[#9B8E76] block mt-0.5">English Department UIN Madura</span>
             </div>
         </a>
-        <div class="hidden md:flex items-center gap-8 text-sm font-semibold tracking-wide text-slate-700">
-            <a href="#beranda" class="hover:text-amber-600 transition-colors">Beranda</a>
-            <a href="#leaderboard" class="hover:text-amber-600 transition-colors">Papan Klasemen</a>
-            <a href="#finalis" class="hover:text-amber-600 transition-colors">Kandidat Duta</a>
-            <a href="#faq" class="hover:text-amber-600 transition-colors">Informasi</a>
-            <a href="#lookup" class="hover:text-amber-600 transition-colors">Cek Invoice</a>
+        <div class="hidden md:flex items-center gap-8 text-[13px] font-medium text-[#64604F]">
+            <a href="#beranda" class="hover:text-[#D4AF37] transition-colors">Beranda</a>
+            <a href="#leaderboard" class="hover:text-[#D4AF37] transition-colors">Klasemen</a>
+            <a href="#finalis" class="hover:text-[#D4AF37] transition-colors">Kandidat</a>
+            <a href="#faq" class="hover:text-[#D4AF37] transition-colors">Informasi</a>
+            <a href="#lookup" class="hover:text-[#D4AF37] transition-colors">Cek Invoice</a>
         </div>
         <div class="flex items-center gap-4">
-            <a href="{{ route('admin.login') }}" class="text-xs font-bold uppercase tracking-widest border border-amber-500/50 hover:border-amber-500 px-4 py-2 rounded-full text-amber-700 hover:bg-amber-50 transition-all">
-                Admin Panel
+            <a href="{{ route('admin.login') }}" class="text-[11px] font-semibold uppercase tracking-widest border border-[#D4AF37]/30 hover:border-[#D4AF37] px-4 py-2 rounded-full text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all">
+                Admin
             </a>
         </div>
     </nav>
 
-    <!-- 🏛️ Welcome / Hero Section -->
-    <header id="beranda" class="relative pt-32 pb-20 px-6 md:px-12 flex flex-col items-center text-center max-w-7xl mx-auto z-10">
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-amber-500/30 shadow-lg mb-8 animate-bounce reveal-scale">
-            <span class="w-2 h-2 rounded-full bg-rose-400 animate-ping"></span>
-            <span class="text-xs font-bold tracking-widest text-amber-700 uppercase">PRINCE & PRINCESS ENGLISH DEPARTMENT</span>
+    <!-- Hero Section -->
+    <header id="beranda" class="relative pt-36 pb-24 px-6 md:px-12 flex flex-col items-center text-center max-w-6xl mx-auto z-10">
+        
+        <!-- Decorative Divider -->
+        <div class="section-divider reveal-scale">
+            <span>JOURNEY TO THE CROWN {{ \App\Models\Setting::getValue('event_year', '2026') }}</span>
         </div>
         
         <!-- Headline -->
-        <h1 class="text-4xl md:text-7xl font-serif font-bold tracking-tight max-w-5xl leading-tight mb-8 reveal-element text-slate-800">
+        <h1 class="text-3xl md:text-[3.2rem] font-serif font-bold tracking-tight max-w-4xl leading-[1.15] mb-6 reveal-element text-[#2C2416]">
             Beauty in the Journey, <br class="hidden md:block">
             <span class="gold-text-gradient">Together will be Free</span>
         </h1>
         
-        <p class="text-slate-600 text-sm md:text-lg max-w-2xl leading-relaxed mb-12 reveal-element">
-            Pilihlah Representasi Terbaik Prince & Princess English Department UIN Madura 2026. Dukung kandidat favoritmu melalui e-voting terintegrasi pembayaran digital aman. Satu suara Anda menentukan masa depan akademik-budaya.
+        <p class="text-[#6B6455] text-[14px] md:text-[16px] max-w-xl leading-relaxed mb-14 reveal-element">
+            Pilihlah Representasi Terbaik Prince & Princess English Department UIN Madura {{ \App\Models\Setting::getValue('event_year', '2026') }}. Satu suara Anda menentukan masa depan.
         </p>
 
         <!-- Stats Panel -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl glass-panel p-6 rounded-2xl border border-amber-500/20 mb-16 shadow-2xl relative overflow-hidden reveal-scale">
-            <div class="absolute inset-0 bg-gradient-to-r from-amber-50/10 to-rose-50/10 opacity-50"></div>
-            <div class="relative text-center border-r border-slate-200">
-                <span class="block text-2xl md:text-4xl font-extrabold text-amber-600 font-serif">{{ number_format($totalVotes) }}</span>
-                <span class="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest mt-1 block">Total Suara Masuk</span>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 w-full max-w-3xl mb-14 reveal-scale">
+            <div class="bg-[#FAF8F4] rounded-2xl p-5 text-center border border-[#EDE8DD] flex flex-col justify-center items-center min-h-[110px] md:min-h-[130px]">
+                <span class="block text-2xl md:text-3xl font-semibold text-[#D4AF37] tabular-nums">{{ number_format($totalVotes) }}</span>
+                <span class="text-[10px] text-[#9B8E76] uppercase tracking-[0.12em] mt-1.5 block">Suara Masuk</span>
             </div>
-            <div class="relative text-center border-r border-slate-200">
-                <span class="block text-2xl md:text-4xl font-extrabold text-rose-500 font-serif">{{ $totalCandidates }}</span>
-                <span class="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest mt-1 block">Finalis Duta</span>
+            <div class="bg-[#FAF8F4] rounded-2xl p-5 text-center border border-[#EDE8DD] flex flex-col justify-center items-center min-h-[110px] md:min-h-[130px]">
+                <span class="block text-2xl md:text-3xl font-semibold text-[#D4AF37] tabular-nums">{{ $totalCandidates }}</span>
+                <span class="text-[10px] text-[#9B8E76] uppercase tracking-[0.12em] mt-1.5 block">Finalis Duta</span>
             </div>
-            <div class="relative text-center border-r border-slate-200">
-                <span class="block text-2xl md:text-4xl font-extrabold text-amber-600 font-serif">{{ $totalFaculties }}</span>
-                <span class="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest mt-1 block">Fakultas Terlibat</span>
+            <div class="bg-[#FAF8F4] rounded-2xl p-5 text-center border border-[#EDE8DD] flex flex-col justify-center items-center min-h-[110px] md:min-h-[130px]">
+                <span class="block text-2xl md:text-3xl font-semibold text-[#D4AF37] tabular-nums">{{ $totalFaculties }}</span>
+                <span class="text-[10px] text-[#9B8E76] uppercase tracking-[0.12em] mt-1.5 block">Fakultas</span>
             </div>
-            <div class="relative text-center">
-                <span id="countdown" class="block text-xl md:text-2xl font-extrabold text-rose-500 font-serif py-1">12 Hari Terbuka</span>
-                <span class="text-[10px] md:text-xs text-slate-500 uppercase tracking-widest mt-1 block">Waktu Voting Tersisa</span>
+            <div class="bg-[#FAF8F4] rounded-2xl p-5 text-center border border-[#EDE8DD] flex flex-col justify-center items-center min-h-[110px] md:min-h-[130px]">
+                <span id="countdown" class="block text-lg md:text-xl font-semibold text-[#D4AF37] tabular-nums leading-tight py-0.5">Loading...</span>
+                <span class="text-[10px] text-[#9B8E76] uppercase tracking-[0.12em] mt-1.5 block">Sisa Waktu</span>
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center reveal-element">
-            <a href="#finalis" class="px-8 py-4 rounded-full btn-shimmer text-slate-900 font-bold tracking-wider hover:scale-105 hover:shadow-lg transition-all text-sm uppercase">
+        <div class="flex flex-col sm:flex-row gap-3 items-center justify-center reveal-element">
+            <a href="#finalis" class="px-7 py-3.5 rounded-full btn-shimmer font-semibold text-[13px] uppercase tracking-wider">
                 Jelajahi Kandidat
             </a>
-            <a href="#leaderboard" class="px-8 py-4 rounded-full border border-rose-400/30 hover:border-amber-400 text-amber-700 font-semibold tracking-wider hover:bg-amber-50 transition-all text-sm uppercase">
-                Lihat Klasemen Live
+            <a href="#leaderboard" class="px-7 py-3.5 rounded-full btn-outline-gold font-semibold text-[13px] uppercase tracking-wider">
+                Lihat Klasemen
             </a>
         </div>
     </header>
 
     <!-- 🏆 Interactive Leaderboard Section -->
-    <section id="leaderboard" class="py-20 px-6 md:px-12 max-w-7xl mx-auto z-10 relative">
+    <section id="leaderboard" class="py-24 px-6 md:px-12 section-warm z-10 relative">
+      <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16 reveal-element">
-            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4 text-slate-800">Papan <span class="gold-text-gradient">Klasemen</span></h2>
-            <p class="text-slate-600 max-w-md mx-auto text-xs md:text-sm">Posisi klasemen perolehan suara ter-update secara otomatis begitu transaksi pembayaran pendukung sukses diverifikasi.</p>
+            <div class="section-divider"><span>Live Ranking</span></div>
+            <h2 class="text-2xl md:text-4xl font-serif font-bold mb-3 text-[#2C2416]">Papan <span class="gold-text-gradient">Klasemen</span></h2>
+            <p class="text-[#8A8272] max-w-md mx-auto text-[13px]">Posisi klasemen ter-update otomatis setelah transaksi pembayaran berhasil diverifikasi.</p>
         </div>
 
         <!-- Category Tabs -->
-        <div class="flex justify-center gap-4 mb-12 reveal-scale">
-            <button onclick="switchLeaderboard('putra')" id="btn-tab-putra" class="px-6 py-2.5 rounded-full font-bold tracking-wider text-sm transition-all duration-300 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 shadow-md">
-                Kategori Putra
+        <div class="flex justify-center gap-3 mb-12 reveal-scale">
+            <button onclick="switchLeaderboard('putra')" id="btn-tab-putra" class="px-6 py-2.5 rounded-full font-semibold tracking-wider text-[12px] transition-all duration-300 btn-shimmer shadow-md uppercase">
+                Prince
             </button>
-            <button onclick="switchLeaderboard('putri')" id="btn-tab-putri" class="px-6 py-2.5 rounded-full font-bold tracking-wider text-sm transition-all duration-300 border border-slate-300 text-slate-500 hover:text-slate-900 hover:bg-slate-50">
-                Kategori Putri
+            <button onclick="switchLeaderboard('putri')" id="btn-tab-putri" class="px-6 py-2.5 rounded-full font-semibold tracking-wider text-[12px] transition-all duration-300 btn-outline-gold uppercase">
+                Princess
             </button>
         </div>
 
@@ -323,11 +448,11 @@
                         <span class="absolute bottom-1 inset-x-0 text-center text-[10px] md:text-xs font-bold text-white uppercase">{{ $podiumPutraAesthetic[0]->candidate_number }}</span>
                     </div>
                     <span class="text-xs md:text-sm font-bold tracking-wide text-slate-800 mt-3 text-center truncate max-w-full">{{ explode(' ', $podiumPutraAesthetic[0]->name)[0] }}</span>
-                    <span class="text-[10px] md:text-xs text-amber-600 font-bold mt-1">{{ number_format($podiumPutraAesthetic[0]->current_votes) }} Suara</span>
+                    <span class="text-[10px] md:text-xs text-[#D4AF37] font-bold mt-1">{{ number_format($podiumPutraAesthetic[0]->current_votes) }} Suara</span>
                     
                     <!-- Silver Podium Base -->
-                    <div class="w-full h-20 md:h-32 bg-gradient-to-t from-slate-200 via-slate-100 to-white border border-slate-300/50 rounded-t-xl mt-4 flex items-center justify-center shadow-lg relative">
-                        <span class="text-2xl md:text-5xl font-extrabold text-slate-400 font-serif">2</span>
+                    <div class="w-full h-20 md:h-32 silver-podium-base border border-slate-300/30 rounded-t-xl mt-4 flex items-center justify-center shadow-md relative">
+                        <span class="text-2xl md:text-5xl font-extrabold font-sans shimmer-text-silver">2</span>
                     </div>
                 </div>
                 @endif
@@ -337,21 +462,19 @@
                 <div class="flex flex-col items-center">
                     <!-- Elegant Crown over Rank 1 -->
                     <div class="animate-float-crown">
-                        <svg class="w-8 h-8 md:w-12 md:h-12 text-amber-500 animate-sparkle mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z" fill="currentColor"/>
-                        </svg>
+                        <img src="/images/gold_crown_3d.png" class="w-12 h-12 md:w-20 md:h-20 object-contain mb-1 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)]" alt="Crown">
                     </div>
-                    <div class="relative w-20 h-20 md:w-36 md:h-36 rounded-full border-4 border-amber-400 overflow-hidden shadow-2xl shadow-amber-500/10 hover:scale-105 transition-transform duration-300">
+                    <div class="relative w-20 h-20 md:w-36 md:h-36 rounded-full border-4 border-[#D4AF37] overflow-hidden shadow-2xl shadow-[#D4AF37]/15 hover:scale-105 transition-transform duration-300">
                         <img src="{{ $podiumPutraAesthetic[1]->photo_path }}" alt="{{ $podiumPutraAesthetic[1]->name }}" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                         <span class="absolute bottom-1 inset-x-0 text-center text-[10px] md:text-xs font-bold text-white uppercase">{{ $podiumPutraAesthetic[1]->candidate_number }}</span>
                     </div>
                     <span class="text-xs md:text-sm font-bold tracking-wide text-slate-900 mt-3 text-center truncate max-w-full">{{ explode(' ', $podiumPutraAesthetic[1]->name)[0] }}</span>
-                    <span class="text-xs text-amber-600 font-bold mt-1">{{ number_format($podiumPutraAesthetic[1]->current_votes) }} Suara</span>
+                    <span class="text-xs text-[#D4AF37] font-bold mt-1">{{ number_format($podiumPutraAesthetic[1]->current_votes) }} Suara</span>
                     
                     <!-- Gold Podium Base -->
-                    <div class="w-full h-28 md:h-44 bg-gradient-to-t from-amber-100 via-amber-50 to-white border border-amber-300/50 rounded-t-2xl mt-4 flex items-center justify-center shadow-xl relative">
-                        <span class="text-3xl md:text-6xl font-extrabold text-amber-500 font-serif">1</span>
+                    <div class="w-full h-28 md:h-44 gold-podium-base border border-[#D4AF37]/30 rounded-t-2xl mt-4 flex items-center justify-center shadow-xl relative">
+                        <span class="text-3xl md:text-6xl font-extrabold font-sans shimmer-text-gold">1</span>
                     </div>
                 </div>
                 @endif
@@ -365,22 +488,22 @@
                         <span class="absolute bottom-1 inset-x-0 text-center text-[10px] md:text-xs font-bold text-white uppercase">{{ $podiumPutraAesthetic[2]->candidate_number }}</span>
                     </div>
                     <span class="text-xs md:text-sm font-bold tracking-wide text-slate-800 mt-3 text-center truncate max-w-full">{{ explode(' ', $podiumPutraAesthetic[2]->name)[0] }}</span>
-                    <span class="text-[10px] md:text-xs text-amber-600 font-bold mt-1">{{ number_format($podiumPutraAesthetic[2]->current_votes) }} Suara</span>
+                    <span class="text-[10px] md:text-xs text-[#D4AF37] font-bold mt-1">{{ number_format($podiumPutraAesthetic[2]->current_votes) }} Suara</span>
                     
                     <!-- Bronze Podium Base -->
-                    <div class="w-full h-16 md:h-24 bg-gradient-to-t from-orange-100 via-orange-50 to-white border border-orange-200/50 rounded-t-xl mt-4 flex items-center justify-center shadow-lg relative">
-                        <span class="text-xl md:text-4xl font-extrabold text-orange-400 font-serif">3</span>
+                    <div class="w-full h-16 md:h-24 bronze-podium-base border border-orange-300/30 rounded-t-xl mt-4 flex items-center justify-center shadow-md relative">
+                        <span class="text-xl md:text-4xl font-extrabold font-sans shimmer-text-bronze">3</span>
                     </div>
                 </div>
                 @endif
             </div>
 
             <!-- Table Standings -->
-            <div class="max-w-4xl mx-auto glass-panel border border-amber-500/25 rounded-2xl overflow-hidden shadow-2xl">
+            <div class="max-w-4xl mx-auto glass-panel border border-[#D4AF37]/25 rounded-2xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-200 bg-amber-500/5 text-slate-600 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+                            <tr class="border-b border-slate-200 bg-[#D4AF37]/5 text-slate-600 text-[10px] md:text-xs uppercase tracking-widest font-bold">
                                 <th class="py-4 px-6">Rank</th>
                                 <th class="py-4 px-6">Nomor</th>
                                 <th class="py-4 px-6">Nama Finalis</th>
@@ -391,15 +514,15 @@
                         </thead>
                         <tbody class="text-xs md:text-sm divide-y divide-slate-100 bg-white/40">
                             @foreach($putraLeaderboard as $index => $item)
-                            <tr class="hover:bg-amber-50/50 transition-all">
+                            <tr class="hover:bg-[#D4AF37]/5 transition-all">
                                 <td class="py-4 px-6 font-bold text-slate-500">#{{ $index + 1 }}</td>
-                                <td class="py-4 px-6 font-bold text-amber-600">{{ $item->candidate_number }}</td>
+                                <td class="py-4 px-6 font-bold text-[#D4AF37]">{{ $item->candidate_number }}</td>
                                 <td class="py-4 px-6 font-bold text-slate-800 flex items-center gap-3">
                                     <img src="{{ $item->photo_path }}" class="w-8 h-8 rounded-full object-cover shadow-sm">
                                     {{ $item->name }}
                                 </td>
                                 <td class="py-4 px-6 text-slate-600">{{ $item->faculty }}</td>
-                                <td class="py-4 px-6 text-right font-extrabold text-amber-600">{{ number_format($item->current_votes) }}</td>
+                                <td class="py-4 px-6 text-right font-extrabold text-[#D4AF37]">{{ number_format($item->current_votes) }}</td>
                                 <td class="py-4 px-6 text-right font-bold text-slate-700">
                                     {{ $totalVotes > 0 ? number_format(($item->current_votes / $totalVotes) * 100, 1) : 0 }}%
                                 </td>
@@ -424,11 +547,11 @@
                         <span class="absolute bottom-1 inset-x-0 text-center text-[10px] md:text-xs font-bold text-white uppercase">{{ $podiumPutriAesthetic[0]->candidate_number }}</span>
                     </div>
                     <span class="text-xs md:text-sm font-bold tracking-wide text-slate-800 mt-3 text-center truncate max-w-full">{{ explode(' ', $podiumPutriAesthetic[0]->name)[0] }}</span>
-                    <span class="text-[10px] md:text-xs text-amber-600 font-bold mt-1">{{ number_format($podiumPutriAesthetic[0]->current_votes) }} Suara</span>
+                    <span class="text-[10px] md:text-xs text-[#D4AF37] font-bold mt-1">{{ number_format($podiumPutriAesthetic[0]->current_votes) }} Suara</span>
                     
                     <!-- Silver Podium Base -->
-                    <div class="w-full h-20 md:h-32 bg-gradient-to-t from-slate-200 via-slate-100 to-white border border-slate-300/50 rounded-t-xl mt-4 flex items-center justify-center shadow-lg relative">
-                        <span class="text-2xl md:text-5xl font-extrabold text-slate-400 font-serif">2</span>
+                    <div class="w-full h-20 md:h-32 silver-podium-base border border-slate-300/30 rounded-t-xl mt-4 flex items-center justify-center shadow-md relative">
+                        <span class="text-2xl md:text-5xl font-extrabold font-sans shimmer-text-silver">2</span>
                     </div>
                 </div>
                 @endif
@@ -437,21 +560,19 @@
                 @if($podiumPutriAesthetic->has(1))
                 <div class="flex flex-col items-center">
                     <div class="animate-float-crown">
-                        <svg class="w-8 h-8 md:w-12 md:h-12 text-amber-500 animate-sparkle mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z" fill="currentColor"/>
-                        </svg>
+                        <img src="/images/gold_crown_3d.png" class="w-12 h-12 md:w-20 md:h-20 object-contain mb-1 drop-shadow-[0_4px_8px_rgba(212,175,55,0.4)]" alt="Crown">
                     </div>
-                    <div class="relative w-20 h-20 md:w-36 md:h-36 rounded-full border-4 border-amber-400 overflow-hidden shadow-2xl shadow-amber-500/10 hover:scale-105 transition-transform duration-300">
+                    <div class="relative w-20 h-20 md:w-36 md:h-36 rounded-full border-4 border-[#D4AF37] overflow-hidden shadow-2xl shadow-[#D4AF37]/15 hover:scale-105 transition-transform duration-300">
                         <img src="{{ $podiumPutriAesthetic[1]->photo_path }}" alt="{{ $podiumPutriAesthetic[1]->name }}" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                         <span class="absolute bottom-1 inset-x-0 text-center text-[10px] md:text-xs font-bold text-white uppercase">{{ $podiumPutriAesthetic[1]->candidate_number }}</span>
                     </div>
                     <span class="text-xs md:text-sm font-bold tracking-wide text-slate-900 mt-3 text-center truncate max-w-full">{{ explode(' ', $podiumPutriAesthetic[1]->name)[0] }}</span>
-                    <span class="text-xs text-amber-600 font-bold mt-1">{{ number_format($podiumPutriAesthetic[1]->current_votes) }} Suara</span>
+                    <span class="text-xs text-[#D4AF37] font-bold mt-1">{{ number_format($podiumPutriAesthetic[1]->current_votes) }} Suara</span>
                     
                     <!-- Gold Podium Base -->
-                    <div class="w-full h-28 md:h-44 bg-gradient-to-t from-amber-100 via-amber-50 to-white border border-amber-300/50 rounded-t-2xl mt-4 flex items-center justify-center shadow-xl relative">
-                        <span class="text-3xl md:text-6xl font-extrabold text-amber-500 font-serif">1</span>
+                    <div class="w-full h-28 md:h-44 gold-podium-base border border-[#D4AF37]/30 rounded-t-2xl mt-4 flex items-center justify-center shadow-xl relative">
+                        <span class="text-3xl md:text-6xl font-extrabold font-sans shimmer-text-gold">1</span>
                     </div>
                 </div>
                 @endif
@@ -465,22 +586,22 @@
                         <span class="absolute bottom-1 inset-x-0 text-center text-[10px] md:text-xs font-bold text-white uppercase">{{ $podiumPutriAesthetic[2]->candidate_number }}</span>
                     </div>
                     <span class="text-xs md:text-sm font-bold tracking-wide text-slate-800 mt-3 text-center truncate max-w-full">{{ explode(' ', $podiumPutriAesthetic[2]->name)[0] }}</span>
-                    <span class="text-[10px] md:text-xs text-amber-600 font-bold mt-1">{{ number_format($podiumPutriAesthetic[2]->current_votes) }} Suara</span>
+                    <span class="text-[10px] md:text-xs text-[#D4AF37] font-bold mt-1">{{ number_format($podiumPutriAesthetic[2]->current_votes) }} Suara</span>
                     
                     <!-- Bronze Podium Base -->
-                    <div class="w-full h-16 md:h-24 bg-gradient-to-t from-orange-100 via-orange-50 to-white border border-orange-200/50 rounded-t-xl mt-4 flex items-center justify-center shadow-lg relative">
-                        <span class="text-xl md:text-4xl font-extrabold text-orange-400 font-serif">3</span>
+                    <div class="w-full h-16 md:h-24 bronze-podium-base border border-orange-300/30 rounded-t-xl mt-4 flex items-center justify-center shadow-md relative">
+                        <span class="text-xl md:text-4xl font-extrabold font-sans shimmer-text-bronze">3</span>
                     </div>
                 </div>
                 @endif
             </div>
 
             <!-- Table Standings -->
-            <div class="max-w-4xl mx-auto glass-panel border border-amber-500/25 rounded-2xl overflow-hidden shadow-2xl">
+            <div class="max-w-4xl mx-auto glass-panel border border-[#D4AF37]/25 rounded-2xl overflow-hidden shadow-2xl">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-200 bg-amber-500/5 text-slate-600 text-[10px] md:text-xs uppercase tracking-widest font-bold">
+                            <tr class="border-b border-slate-200 bg-[#D4AF37]/5 text-slate-600 text-[10px] md:text-xs uppercase tracking-widest font-bold">
                                 <th class="py-4 px-6">Rank</th>
                                 <th class="py-4 px-6">Nomor</th>
                                 <th class="py-4 px-6">Nama Finalis</th>
@@ -491,15 +612,15 @@
                         </thead>
                         <tbody class="text-xs md:text-sm divide-y divide-slate-100 bg-white/40">
                             @foreach($putriLeaderboard as $index => $item)
-                            <tr class="hover:bg-amber-50/50 transition-all">
+                            <tr class="hover:bg-[#D4AF37]/5 transition-all">
                                 <td class="py-4 px-6 font-bold text-slate-500">#{{ $index + 1 }}</td>
-                                <td class="py-4 px-6 font-bold text-amber-600">{{ $item->candidate_number }}</td>
+                                <td class="py-4 px-6 font-bold text-[#D4AF37]">{{ $item->candidate_number }}</td>
                                 <td class="py-4 px-6 font-bold text-slate-800 flex items-center gap-3">
                                     <img src="{{ $item->photo_path }}" class="w-8 h-8 rounded-full object-cover shadow-sm">
                                     {{ $item->name }}
                                 </td>
                                 <td class="py-4 px-6 text-slate-600">{{ $item->faculty }}</td>
-                                <td class="py-4 px-6 text-right font-extrabold text-amber-600">{{ number_format($item->current_votes) }}</td>
+                                <td class="py-4 px-6 text-right font-extrabold text-[#D4AF37]">{{ number_format($item->current_votes) }}</td>
                                 <td class="py-4 px-6 text-right font-bold text-slate-700">
                                     {{ $totalVotes > 0 ? number_format(($item->current_votes / $totalVotes) * 100, 1) : 0 }}%
                                 </td>
@@ -510,27 +631,30 @@
                 </div>
             </div>
         </div>
+      </div>
     </section>
 
     <!-- 👥 Showcase Candidates Grid -->
-    <section id="finalis" class="py-20 px-6 md:px-12 max-w-7xl mx-auto z-10 relative">
+    <section id="finalis" class="py-24 px-6 md:px-12 z-10 relative">
+      <div class="max-w-7xl mx-auto">
         <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div class="reveal-left">
-                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4 text-slate-800">Daftar Finalis <span class="gold-text-gradient">Unggulan</span></h2>
-                <p class="text-slate-600 text-xs md:text-sm">Jelajahi profil lengkap, visi, misi, dan dukung langsung kandidat favorit Anda.</p>
+                <div class="section-divider" style="justify-content: flex-start;"><span>Kandidat Duta</span></div>
+                <h2 class="text-2xl md:text-4xl font-serif font-bold mb-3 text-[#2C2416]">Daftar Finalis <span class="gold-text-gradient">Unggulan</span></h2>
+                <p class="text-[#8A8272] text-[13px]">Jelajahi profil lengkap, visi, misi, dan dukung langsung kandidat favorit Anda.</p>
             </div>
             
             <!-- Search & Filter Controls -->
             <div class="flex flex-wrap gap-3 items-center w-full md:w-auto reveal-right">
-                <input type="text" id="candidate-search" oninput="filterCandidates()" placeholder="Cari nama finalis..." class="px-5 py-3 rounded-full bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm placeholder-slate-400 text-slate-700 shadow-sm w-full sm:w-64">
+                <input type="text" id="candidate-search" oninput="filterCandidates()" placeholder="Cari nama finalis..." class="px-5 py-3 rounded-full bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm placeholder-slate-400 text-slate-700 shadow-sm w-full sm:w-64">
                 
-                <select id="gender-filter" onchange="filterCandidates()" class="px-4 py-3 rounded-full bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-medium cursor-pointer shadow-sm">
+                <select id="gender-filter" onchange="filterCandidates()" class="px-4 py-3 rounded-full bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-medium cursor-pointer shadow-sm">
                     <option value="all">Semua Kategori</option>
-                    <option value="putra">Putra</option>
-                    <option value="putri">Putri</option>
+                    <option value="putra">Prince</option>
+                    <option value="putri">Princess</option>
                 </select>
 
-                <select id="faculty-filter" onchange="filterCandidates()" class="px-4 py-3 rounded-full bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-medium cursor-pointer shadow-sm">
+                <select id="faculty-filter" onchange="filterCandidates()" class="px-4 py-3 rounded-full bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-medium cursor-pointer shadow-sm">
                     <option value="all">Semua Fakultas</option>
                     @foreach($candidates->pluck('faculty')->unique() as $faculty)
                     <option value="{{ $faculty }}">{{ $faculty }}</option>
@@ -542,13 +666,13 @@
         <!-- 3D Card Grid -->
         <div id="candidates-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach($candidates as $candidate)
-            <div class="candidate-item candidate-card group relative rounded-3xl glass-panel border border-amber-500/20 p-4 gold-border-hover transition-all duration-500 flex flex-col justify-between reveal-element shadow-md"
+            <div class="candidate-item candidate-card group relative rounded-3xl glass-panel border border-[#D4AF37]/20 p-4 gold-border-hover transition-all duration-500 flex flex-col justify-between reveal-element shadow-md"
                  data-id="{{ $candidate->id }}"
                  data-name="{{ strtolower($candidate->name) }}"
                  data-gender="{{ $candidate->gender }}"
                  data-faculty="{{ $candidate->faculty }}"
                  data-prodi="{{ strtolower($candidate->prodi) }}">
-                
+                 
                 <div>
                     <!-- Portrait Image Frame -->
                     <div class="relative aspect-[3/4] rounded-2xl overflow-hidden mb-6 group-hover:shadow-2xl transition-all duration-500">
@@ -556,19 +680,19 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
                         
                         <!-- Floating Category Badge -->
-                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-amber-500/90 border border-amber-400/30 text-slate-900 shadow-md">
+                        <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-[#D4AF37]/90 border border-white/20 text-white shadow-md">
                             {{ $candidate->gender }}
                         </span>
  
                         <!-- Candidate Number Circle -->
-                        <div class="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 shadow-lg flex items-center justify-center">
+                        <div class="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#F5D061] shadow-lg flex items-center justify-center">
                             <span class="text-slate-900 font-bold text-lg font-serif">{{ $candidate->candidate_number }}</span>
                         </div>
                     </div>
  
                     <!-- Finalist Details -->
                     <div class="px-2">
-                        <h3 class="text-lg font-bold font-serif text-slate-800 tracking-wide leading-snug group-hover:text-amber-600 transition-colors mb-1">{{ $candidate->name }}</h3>
+                        <h3 class="text-lg font-bold font-serif text-slate-800 tracking-wide leading-snug group-hover:text-[#D4AF37] transition-colors mb-1">{{ $candidate->name }}</h3>
                         <span class="text-xs font-bold text-rose-500 tracking-wider block mb-3 uppercase">{{ $candidate->faculty }} &bull; {{ $candidate->prodi }}</span>
                         <p class="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-6 font-medium italic">"{{ $candidate->bio }}"</p>
                     </div>
@@ -576,7 +700,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex gap-2 mt-4 px-2 pb-2">
-                    <button onclick="openDetailModal({{ $candidate->id }})" class="flex-1 px-4 py-2.5 rounded-xl border border-amber-500/30 hover:border-amber-500 text-amber-700 font-bold text-xs transition-all uppercase tracking-wider hover:bg-amber-50">
+                    <button onclick="openDetailModal({{ $candidate->id }})" class="flex-1 px-4 py-2.5 rounded-xl border border-[#D4AF37]/30 hover:border-[#D4AF37] text-[#D4AF37] font-bold text-xs transition-all uppercase tracking-wider hover:bg-[#D4AF37]/5">
                         Profil
                     </button>
                     <button onclick="openCheckoutModal({{ $candidate->id }}, '{{ $candidate->name }}', '{{ $candidate->candidate_number }}', '{{ $candidate->gender }}')" class="flex-1 px-4 py-2.5 rounded-xl btn-shimmer text-slate-900 hover:shadow-lg font-bold text-xs transition-all uppercase tracking-wider">
@@ -589,27 +713,30 @@
         
         <!-- Empty State Search -->
         <div id="search-empty-state" class="hidden text-center py-20">
-            <svg class="w-16 h-16 text-amber-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-16 h-16 text-[#D4AF37] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
             <h3 class="text-lg font-bold text-slate-800 mb-2">Finalis Tidak Ditemukan</h3>
             <p class="text-slate-600 text-sm">Coba cari dengan kata kunci lain atau bersihkan filter.</p>
         </div>
+      </div>
     </section>
 
     <!-- 🙋 FAQ / Information Accordion -->
-    <section id="faq" class="py-20 px-6 md:px-12 max-w-4xl mx-auto z-10 relative">
+    <section id="faq" class="py-24 px-6 md:px-12 section-warm z-10 relative">
+      <div class="max-w-4xl mx-auto">
         <div class="text-center mb-16 reveal-element">
-            <h2 class="text-3xl md:text-5xl font-serif font-bold mb-4 text-slate-800">Informasi & <span class="gold-text-gradient">Panduan Vote</span></h2>
-            <p class="text-slate-600 text-xs md:text-sm">Pertanyaan umum seputar pemilihan dan integrasi sistem pembayaran.</p>
+            <div class="section-divider"><span>FAQ</span></div>
+            <h2 class="text-2xl md:text-4xl font-serif font-bold mb-3 text-[#2C2416]">Informasi & <span class="gold-text-gradient">Panduan Vote</span></h2>
+            <p class="text-[#8A8272] text-[13px]">Pertanyaan umum seputar pemilihan dan integrasi sistem pembayaran.</p>
         </div>
 
         <div class="space-y-4 reveal-scale">
             <!-- FAQ 1 -->
-            <div class="glass-panel border border-amber-500/20 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm">
+            <div class="glass-panel border border-[#D4AF37]/20 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button onclick="toggleFaq(1)" class="w-full text-left p-6 flex justify-between items-center gap-4 focus:outline-none bg-white/40">
-                    <span class="font-bold text-sm md:text-base text-slate-800 hover:text-amber-600 transition-colors">Bagaimana cara memberikan dukungan suara (vote)?</span>
-                    <span id="faq-icon-1" class="text-amber-600 font-bold transition-transform duration-300">+</span>
+                    <span class="font-bold text-sm md:text-base text-slate-800 hover:text-[#D4AF37] transition-colors">Bagaimana cara memberikan dukungan suara (vote)?</span>
+                    <span id="faq-icon-1" class="text-[#D4AF37] font-bold transition-transform duration-300">+</span>
                 </button>
                 <div id="faq-ans-1" class="max-h-0 overflow-hidden transition-all duration-500">
                     <div class="p-6 pt-0 text-xs md:text-sm text-slate-600 border-t border-slate-100 bg-white/20 leading-relaxed">
@@ -619,10 +746,10 @@
             </div>
 
             <!-- FAQ 2 -->
-            <div class="glass-panel border border-amber-500/20 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm">
+            <div class="glass-panel border border-[#D4AF37]/20 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button onclick="toggleFaq(2)" class="w-full text-left p-6 flex justify-between items-center gap-4 focus:outline-none bg-white/40">
-                    <span class="font-bold text-sm md:text-base text-slate-800 hover:text-amber-600 transition-colors">Apakah metode pembayarannya aman dan terintegrasi?</span>
-                    <span id="faq-icon-2" class="text-amber-600 font-bold transition-transform duration-300">+</span>
+                    <span class="font-bold text-sm md:text-base text-slate-800 hover:text-[#D4AF37] transition-colors">Apakah metode pembayarannya aman dan terintegrasi?</span>
+                    <span id="faq-icon-2" class="text-[#D4AF37] font-bold transition-transform duration-300">+</span>
                 </button>
                 <div id="faq-ans-2" class="max-h-0 overflow-hidden transition-all duration-500">
                     <div class="p-6 pt-0 text-xs md:text-sm text-slate-600 border-t border-slate-100 bg-white/20 leading-relaxed">
@@ -632,10 +759,10 @@
             </div>
 
             <!-- FAQ 3 -->
-            <div class="glass-panel border border-amber-500/20 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm">
+            <div class="glass-panel border border-[#D4AF37]/20 rounded-2xl overflow-hidden transition-all duration-300 shadow-sm">
                 <button onclick="toggleFaq(3)" class="w-full text-left p-6 flex justify-between items-center gap-4 focus:outline-none bg-white/40">
-                    <span class="font-bold text-sm md:text-base text-slate-800 hover:text-amber-600 transition-colors">Apakah saya mendapatkan sertifikat / tanda terima resmi?</span>
-                    <span id="faq-icon-3" class="text-amber-600 font-bold transition-transform duration-300">+</span>
+                    <span class="font-bold text-sm md:text-base text-slate-800 hover:text-[#D4AF37] transition-colors">Apakah saya mendapatkan sertifikat / tanda terima resmi?</span>
+                    <span id="faq-icon-3" class="text-[#D4AF37] font-bold transition-transform duration-300">+</span>
                 </button>
                 <div id="faq-ans-3" class="max-h-0 overflow-hidden transition-all duration-500">
                     <div class="p-6 pt-0 text-xs md:text-sm text-slate-600 border-t border-slate-100 bg-white/20 leading-relaxed">
@@ -644,41 +771,43 @@
                 </div>
             </div>
         </div>
+      </div>
     </section>
 
     <!-- 🔍 Invoice Lookup Section -->
-    <section id="lookup" class="py-20 px-6 md:px-12 max-w-4xl mx-auto z-10 relative">
-        <div class="glass-panel border border-amber-500/30 rounded-3xl p-8 md:p-12 text-center shadow-2xl relative overflow-hidden reveal-scale bg-white/80">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl"></div>
+    <section id="lookup" class="py-24 px-6 md:px-12 z-10 relative">
+      <div class="max-w-4xl mx-auto">
+        <div class="glass-panel border border-[#EDE8DD] rounded-3xl p-8 md:p-12 text-center shadow-lg relative overflow-hidden reveal-scale">
             
-            <h2 class="text-2xl md:text-4xl font-serif font-bold mb-4 text-slate-800">Verifikasi & Lacak <span class="gold-text-gradient">Transaksi</span></h2>
-            <p class="text-slate-600 max-w-lg mx-auto text-xs md:text-sm mb-8 leading-relaxed">Masukkan Kode Invoice Anda (misal: VOG-UIN-AAAAAA) di bawah ini untuk melihat status transaksi dan mengunduh ulang Sertifikat Bukti Vote.</p>
+            <div class="section-divider"><span>Invoice</span></div>
+            <h2 class="text-2xl md:text-3xl font-serif font-bold mb-3 text-[#2C2416]">Verifikasi & Lacak <span class="gold-text-gradient">Transaksi</span></h2>
+            <p class="text-[#8A8272] max-w-lg mx-auto text-[13px] mb-8 leading-relaxed">Masukkan Kode Invoice Anda untuk melihat status transaksi dan mengunduh Sertifikat Bukti Vote.</p>
 
             <form onsubmit="handleInvoiceLookup(event)" class="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto">
-                <input type="text" id="lookup-invoice-id" placeholder="Masukkan Kode Invoice (e.g. VOG-UIN-ABCDEF)" required class="flex-1 px-5 py-4 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm placeholder-slate-400 text-slate-700 font-semibold uppercase shadow-sm">
-                <button type="submit" class="px-6 py-4 rounded-xl btn-shimmer text-slate-900 font-bold tracking-wide hover:shadow-lg transition-all text-xs uppercase">
+                <input type="text" id="lookup-invoice-id" placeholder="Masukkan Kode Invoice (e.g. VOG-UIN-ABCDEF)" required class="flex-1 px-5 py-4 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm placeholder-slate-400 text-slate-700 font-semibold uppercase shadow-sm">
+                <button type="submit" class="px-6 py-4 rounded-xl btn-shimmer text-[#2C2416] font-bold tracking-wide hover:shadow-lg transition-all text-xs uppercase">
                     Lacak Vote
                 </button>
             </form>
 
             <!-- Results container -->
-            <div id="lookup-results" class="hidden mt-8 text-left p-6 rounded-2xl bg-white/90 border border-amber-500/20 shadow-md">
+            <div id="lookup-results" class="hidden mt-8 text-left p-6 rounded-2xl bg-white/90 border border-[#D4AF37]/25 shadow-md">
                 <!-- dynamic content -->
             </div>
         </div>
+      </div>
     </section>
 
     <!-- 👣 Footer -->
-    <footer class="border-t border-amber-100 bg-amber-50/50 py-12 px-6 md:px-12 text-center text-slate-500 text-xs tracking-wider z-10 relative reveal-element">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+    <footer class="border-t border-[#EDE8DD] bg-[#FAF8F4] py-10 px-6 md:px-12 text-center z-10 relative reveal-element">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <!-- Logo -->
-                <div class="w-10 h-10 flex items-center justify-center overflow-hidden shrink-0">
+                <div class="w-8 h-8 flex items-center justify-center overflow-hidden shrink-0">
                     <img src="/images/logo_vogma.png" alt="Logo" class="h-full w-full object-contain">
                 </div>
-                <span class="font-bold text-slate-600">PRINCE & PRINCESS &copy; 2026 | ENGLISH DEPARTMENT UIN MADURA</span>
+                <span class="text-[12px] font-medium text-[#8A8272] tracking-wide">Prince & Princess &copy; 2026 — English Department UIN Madura</span>
             </div>
-            <p class="text-slate-500">Hak Cipta Dilindungi Undang-Undang.</p>
+            <p class="text-[11px] text-[#B0A998]">Hak Cipta Dilindungi Undang-Undang.</p>
         </div>
     </footer>
 
@@ -686,9 +815,9 @@
 
     <!-- 🔎 MODAL 1: CANDIDATE DETAIL PROFILE -->
     <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm hidden-fade">
-        <div class="relative w-full max-w-4xl glass-panel border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] bg-white">
+        <div class="relative w-full max-w-4xl glass-panel border border-[#D4AF37]/30 rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] bg-white">
             <!-- Close button -->
-            <button onclick="closeDetailModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/90 text-slate-600 hover:text-slate-900 flex items-center justify-center border border-slate-200 hover:border-amber-500 shadow-md transition-all focus:outline-none">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/90 text-slate-600 hover:text-slate-900 flex items-center justify-center border border-slate-200 hover:border-[#D4AF37] shadow-md transition-all focus:outline-none">
                 &times;
             </button>
 
@@ -696,7 +825,7 @@
             <div class="w-full md:w-2/5 aspect-[3/4] md:aspect-auto relative bg-slate-50">
                 <img id="modal-photo" src="" alt="" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-900/60 md:from-transparent to-transparent"></div>
-                <span id="modal-gender-badge" class="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-amber-500/90 border border-amber-400/30 text-slate-900 shadow-md"></span>
+                <span id="modal-gender-badge" class="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-[#D4AF37]/90 border border-white/20 text-white shadow-md"></span>
             </div>
 
             <!-- Right: Content Scrollable -->
@@ -704,7 +833,7 @@
                 <div>
                     <!-- Title block -->
                     <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 flex items-center justify-center shrink-0 shadow-sm">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-[#D4AF37] to-[#F5D061] flex items-center justify-center shrink-0 shadow-sm">
                             <span id="modal-number" class="text-slate-900 font-bold text-lg font-serif"></span>
                         </div>
                         <div>
@@ -717,19 +846,19 @@
 
                     <!-- Bio -->
                     <div class="mb-6">
-                        <h4 class="text-xs uppercase tracking-widest text-amber-600 font-bold mb-2">Biografi Pendek</h4>
+                        <h4 class="text-xs uppercase tracking-widest text-[#D4AF37] font-bold mb-2">Biografi Pendek</h4>
                         <p id="modal-bio" class="text-xs md:text-sm text-slate-600 leading-relaxed font-medium italic"></p>
                     </div>
 
                     <!-- Vision -->
                     <div class="mb-6">
-                        <h4 class="text-xs uppercase tracking-widest text-amber-600 font-bold mb-2">Visi Utama</h4>
-                        <p id="modal-vision" class="text-xs md:text-sm text-slate-700 leading-relaxed font-bold italic border-l-2 border-amber-400 pl-3"></p>
+                        <h4 class="text-xs uppercase tracking-widest text-[#D4AF37] font-bold mb-2">Visi Utama</h4>
+                        <p id="modal-vision" class="text-xs md:text-sm text-slate-700 leading-relaxed font-bold italic border-l-2 border-[#D4AF37] pl-3"></p>
                     </div>
 
                     <!-- Mission -->
                     <div class="mb-6">
-                        <h4 class="text-xs uppercase tracking-widest text-amber-600 font-bold mb-2">Misi Aksi</h4>
+                        <h4 class="text-xs uppercase tracking-widest text-[#D4AF37] font-bold mb-2">Misi Aksi</h4>
                         <ul id="modal-missions" class="space-y-2 text-xs md:text-sm text-slate-600 list-disc pl-4 leading-relaxed font-medium">
                             <!-- dynamic -->
                         </ul>
@@ -749,22 +878,22 @@
 
     <!-- 💳 MODAL 2: DYNAMIC MULTI-STEP CHECKOUT -->
     <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm hidden-fade">
-        <div class="w-full max-w-lg glass-panel border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl p-6 md:p-8 relative max-h-[95vh] overflow-y-auto bg-white">
+        <div class="w-full max-w-lg glass-panel border border-[#D4AF37]/30 rounded-3xl overflow-hidden shadow-2xl p-6 md:p-8 relative max-h-[95vh] overflow-y-auto bg-white">
             
             <!-- Close button -->
-            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/90 text-slate-600 hover:text-slate-900 flex items-center justify-center border border-slate-200 hover:border-amber-500 shadow-md transition-all focus:outline-none">
+            <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/90 text-slate-600 hover:text-slate-900 flex items-center justify-center border border-slate-200 hover:border-[#D4AF37] shadow-md transition-all focus:outline-none">
                 &times;
             </button>
 
             <!-- Checkout Header -->
             <div class="text-center mb-6">
-                <span class="text-[10px] tracking-widest uppercase text-amber-600 font-bold">PORTAL CHECKOUT VOTE</span>
+                <span class="text-[10px] tracking-widest uppercase text-[#D4AF37] font-bold">PORTAL CHECKOUT VOTE</span>
                 <h3 id="checkout-title" class="text-lg md:text-xl font-serif font-bold text-slate-800 mt-1">Dukung Duta</h3>
             </div>
 
             <!-- Steps Progress Tracker -->
             <div class="flex items-center justify-center gap-3 mb-8">
-                <div id="step-dot-1" class="w-2.5 h-2.5 rounded-full bg-amber-500"></div>
+                <div id="step-dot-1" class="w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></div>
                 <div class="w-8 h-[1px] bg-slate-200" id="step-line-1"></div>
                 <div id="step-dot-2" class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
                 <div class="w-8 h-[1px] bg-slate-200" id="step-line-2"></div>
@@ -780,86 +909,86 @@
             <div id="checkout-step-1" class="space-y-6">
                 <!-- Package Select Grid -->
                 <div>
-                    <label class="block text-xs uppercase tracking-wider text-amber-600 font-bold mb-3">Pilih Paket Dukungan</label>
+                    <label class="block text-xs uppercase tracking-wider text-[#D4AF37] font-bold mb-3">Pilih Paket Dukungan</label>
                     <div class="grid grid-cols-2 gap-3">
-                        <button type="button" onclick="selectPackage(5)" class="package-card p-3 rounded-xl border border-amber-500/20 hover:border-amber-500 bg-white text-left transition-all relative overflow-hidden group shadow-sm">
-                            <span class="block text-xs font-bold text-slate-800 group-hover:text-amber-600">5 Votes</span>
+                        <button type="button" onclick="selectPackage(5)" class="package-card p-3 rounded-xl border border-[#D4AF37]/20 hover:border-[#D4AF37] bg-white text-left transition-all relative overflow-hidden group shadow-sm">
+                            <span class="block text-xs font-bold text-slate-800 group-hover:text-[#D4AF37]">5 Votes</span>
                             <span class="block text-[10px] text-slate-500 mt-1">Rp 5.000</span>
                         </button>
-                        <button type="button" onclick="selectPackage(25)" class="package-card p-3 rounded-xl border border-amber-500/20 hover:border-amber-500 bg-white text-left transition-all relative overflow-hidden group shadow-sm">
-                            <span class="absolute top-1 right-1 bg-amber-500 text-slate-900 font-bold text-[8px] px-1 rounded-sm">BEST VALUE</span>
-                            <span class="block text-xs font-bold text-slate-800 group-hover:text-amber-600">25 Votes (+2)</span>
+                        <button type="button" onclick="selectPackage(25)" class="package-card p-3 rounded-xl border border-[#D4AF37]/20 hover:border-[#D4AF37] bg-white text-left transition-all relative overflow-hidden group shadow-sm">
+                            <span class="absolute top-1 right-1 bg-[#D4AF37] text-slate-900 font-bold text-[8px] px-1 rounded-sm">BEST VALUE</span>
+                            <span class="block text-xs font-bold text-slate-800 group-hover:text-[#D4AF37]">25 Votes (+2)</span>
                             <span class="block text-[10px] text-slate-500 mt-1">Rp 25.000</span>
                         </button>
-                        <button type="button" onclick="selectPackage(50)" class="package-card p-3 rounded-xl border border-amber-500/20 hover:border-amber-500 bg-white text-left transition-all relative overflow-hidden group shadow-sm">
-                            <span class="block text-xs font-bold text-slate-800 group-hover:text-amber-600">50 Votes (+5)</span>
+                        <button type="button" onclick="selectPackage(50)" class="package-card p-3 rounded-xl border border-[#D4AF37]/20 hover:border-[#D4AF37] bg-white text-left transition-all relative overflow-hidden group shadow-sm">
+                            <span class="block text-xs font-bold text-slate-800 group-hover:text-[#D4AF37]">50 Votes (+5)</span>
                             <span class="block text-[10px] text-slate-500 mt-1">Rp 50.000</span>
                         </button>
-                        <button type="button" onclick="selectPackage(100)" class="package-card p-3 rounded-xl border border-amber-500 bg-amber-50 text-left transition-all relative overflow-hidden group shadow-md shadow-amber-500/5">
-                            <span class="absolute top-1 right-1 bg-amber-500 text-slate-900 font-bold text-[8px] px-1 rounded-sm">POPULER</span>
-                            <span class="block text-xs font-bold text-amber-600">100 Votes (+15)</span>
+                        <button type="button" onclick="selectPackage(100)" class="package-card p-3 rounded-xl border border-[#D4AF37] bg-[#D4AF37]/5 text-left transition-all relative overflow-hidden group shadow-md shadow-[#D4AF37]/5">
+                            <span class="absolute top-1 right-1 bg-[#D4AF37] text-white font-bold text-[8px] px-1 rounded-sm">POPULER</span>
+                            <span class="block text-xs font-bold text-[#D4AF37]">100 Votes (+15)</span>
                             <span class="block text-[10px] text-slate-500 mt-1">Rp 100.000</span>
                         </button>
                     </div>
 
                     <!-- Custom input -->
                     <div class="mt-3">
-                        <input type="number" id="checkout-custom-votes" oninput="calculateCustomPrice(this.value)" placeholder="Atau ketik jumlah vote kustom..." min="1" class="w-full px-4 py-3 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
-                        <span id="custom-price-hint" class="block text-[10px] text-amber-600 mt-1.5 font-bold"></span>
+                        <input type="number" id="checkout-custom-votes" oninput="calculateCustomPrice(this.value)" placeholder="Atau ketik jumlah vote kustom..." min="1" class="w-full px-4 py-3 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
+                        <span id="custom-price-hint" class="block text-[10px] text-[#D4AF37] mt-1.5 font-bold"></span>
                     </div>
                 </div>
 
                 <!-- Voter Information -->
                 <div class="space-y-3">
-                    <label class="block text-xs uppercase tracking-wider text-amber-600 font-bold">Biodata Pemilih</label>
-                    <input type="text" id="checkout-voter-name" placeholder="Nama Lengkap Pemilih..." required class="w-full px-4 py-3 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
-                    <input type="email" id="checkout-voter-email" placeholder="Alamat Email Pemilih..." required class="w-full px-4 py-3 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
-                    <input type="tel" id="checkout-voter-whatsapp" placeholder="Nomor WhatsApp (Aktif)..." required class="w-full px-4 py-3 rounded-xl bg-white border border-amber-500/30 focus:outline-none focus:border-amber-500 text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
+                    <label class="block text-xs uppercase tracking-wider text-[#D4AF37] font-bold">Biodata Pemilih</label>
+                    <input type="text" id="checkout-voter-name" placeholder="Nama Lengkap Pemilih..." required class="w-full px-4 py-3 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
+                    <input type="email" id="checkout-voter-email" placeholder="Alamat Email Pemilih..." required class="w-full px-4 py-3 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
+                    <input type="tel" id="checkout-voter-whatsapp" placeholder="Nomor WhatsApp (Aktif)..." required class="w-full px-4 py-3 rounded-xl bg-white border border-[#D4AF37]/30 focus:outline-none focus:border-[#D4AF37] text-xs md:text-sm text-slate-700 font-semibold shadow-sm">
                 </div>
 
-                <button type="button" onclick="goToStep2()" class="w-full py-3.5 rounded-xl btn-shimmer text-slate-900 font-bold tracking-wider hover:shadow-lg transition-all text-xs uppercase mt-6">
+                <button type="button" onclick="goToStep2()" class="w-full py-3.5 rounded-xl btn-shimmer text-[#2C2416] font-bold tracking-wider hover:shadow-lg transition-all text-xs uppercase mt-6">
                     Lanjut Pilih Pembayaran
                 </button>
             </div>
 
             <!-- ==================== STEP 2: SIMULATOR METHOD SELECT ==================== -->
             <div id="checkout-step-2" class="space-y-6 hidden">
-                <label class="block text-xs uppercase tracking-wider text-amber-600 font-bold mb-3">Pilih Metode Pembayaran</label>
+                <label class="block text-xs uppercase tracking-wider text-[#D4AF37] font-bold mb-3">Pilih Metode Pembayaran</label>
                 <div class="grid grid-cols-1 gap-3">
-                    <button type="button" onclick="selectPaymentMethod('QRIS')" class="payment-method-card p-4 rounded-xl border border-amber-500 bg-amber-50/50 text-left transition-all flex items-center justify-between group shadow-sm">
+                    <button type="button" onclick="selectPaymentMethod('QRIS')" class="payment-method-card p-4 rounded-xl border border-[#D4AF37] bg-[#D4AF37]/5 text-left transition-all flex items-center justify-between group shadow-sm">
                         <div class="flex items-center gap-3">
                             <!-- QRIS icon placeholder -->
                             <div class="w-10 h-6 bg-slate-100 rounded border border-slate-200 flex items-center justify-center shrink-0">
                                 <span class="text-[8px] font-bold text-rose-500">QRIS</span>
                             </div>
                             <div>
-                                <span class="block text-xs font-bold text-slate-800 group-hover:text-amber-600">QRIS (Gopay, OVO, ShopeePay, Dana)</span>
-                                <span class="block text-[9px] text-amber-600 font-bold">Biaya Admin: Rp 0 (Instan)</span>
+                                <span class="block text-xs font-bold text-slate-800 group-hover:text-[#D4AF37]">QRIS (Gopay, OVO, ShopeePay, Dana)</span>
+                                <span class="block text-[9px] text-[#D4AF37] font-bold">Biaya Admin: Rp 0 (Instan)</span>
                             </div>
                         </div>
-                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#D4AF37]"></span>
                     </button>
 
-                    <button type="button" onclick="selectPaymentMethod('VA_BCA')" class="payment-method-card p-4 rounded-xl border border-amber-500/20 hover:border-amber-500/40 bg-white text-left transition-all flex items-center justify-between group shadow-sm">
+                    <button type="button" onclick="selectPaymentMethod('VA_BCA')" class="payment-method-card p-4 rounded-xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/40 bg-white text-left transition-all flex items-center justify-between group shadow-sm">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-6 bg-slate-100 rounded border border-slate-200 flex items-center justify-center shrink-0">
                                 <span class="text-[8px] font-extrabold text-blue-500">BCA</span>
                             </div>
                             <div>
-                                <span class="block text-xs font-bold text-slate-800 group-hover:text-amber-600">BCA Virtual Account</span>
+                                <span class="block text-xs font-bold text-slate-800 group-hover:text-[#D4AF37]">BCA Virtual Account</span>
                                 <span class="block text-[9px] text-slate-500">Diverifikasi dalam 1 menit</span>
                             </div>
                         </div>
                         <span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span>
                     </button>
 
-                    <button type="button" onclick="selectPaymentMethod('VA_MANDIRI')" class="payment-method-card p-4 rounded-xl border border-amber-500/20 hover:border-amber-500/40 bg-white text-left transition-all flex items-center justify-between group shadow-sm">
+                    <button type="button" onclick="selectPaymentMethod('VA_MANDIRI')" class="payment-method-card p-4 rounded-xl border border-[#D4AF37]/20 hover:border-[#D4AF37]/40 bg-white text-left transition-all flex items-center justify-between group shadow-sm">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-6 bg-slate-100 rounded border border-slate-200 flex items-center justify-center shrink-0">
-                                <span class="text-[8px] font-extrabold text-yellow-600">MANDIRI</span>
+                                <span class="text-[8px] font-extrabold text-[#D4AF37]">MANDIRI</span>
                             </div>
                             <div>
-                                <span class="block text-xs font-bold text-slate-800 group-hover:text-amber-600">Mandiri Virtual Account</span>
+                                <span class="block text-xs font-bold text-slate-800 group-hover:text-[#D4AF37]">Mandiri Virtual Account</span>
                                 <span class="block text-[9px] text-slate-500">Diverifikasi dalam 1 menit</span>
                             </div>
                         </div>
@@ -871,7 +1000,7 @@
                     <button type="button" onclick="backToStep(1)" class="flex-1 py-3.5 rounded-xl border border-slate-300 text-slate-700 font-bold tracking-wider transition-all text-xs uppercase hover:bg-slate-50">
                         Kembali
                     </button>
-                    <button type="button" onclick="submitCheckout()" class="flex-1 py-3.5 rounded-xl btn-shimmer text-slate-900 font-bold tracking-wider hover:shadow-lg transition-all text-xs uppercase">
+                    <button type="button" onclick="submitCheckout()" class="flex-1 py-3.5 rounded-xl btn-shimmer text-[#2C2416] font-bold tracking-wider hover:shadow-lg transition-all text-xs uppercase">
                         Bayar Sekarang
                     </button>
                 </div>
@@ -879,10 +1008,10 @@
 
             <!-- ==================== STEP 3: TRANSACTION DETAILS & SIMULATOR ==================== -->
             <div id="checkout-step-3" class="space-y-6 hidden">
-                <div class="p-6 rounded-2xl bg-amber-50/50 border border-amber-500/20 text-center relative overflow-hidden shadow-inner">
-                    <div class="absolute top-2 right-2 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>
-                        <span class="text-[8px] font-bold text-amber-700 uppercase tracking-widest">Simulator Mode</span>
+                <div class="p-6 rounded-2xl bg-[#D4AF37]/5 border border-[#D4AF37]/20 text-center relative overflow-hidden shadow-inner">
+                    <div class="absolute top-2 right-2 flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#D4AF37]/20 border border-[#D4AF37]/30">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-ping"></span>
+                        <span class="text-[8px] font-bold text-[#D4AF37] uppercase tracking-widest">Simulator Mode</span>
                     </div>
 
                     <span class="text-[10px] text-slate-500 uppercase tracking-widest block mb-1">KODE INVOICE</span>
@@ -890,20 +1019,20 @@
                     
                     <div class="flex justify-between items-center text-xs py-2.5 border-t border-b border-slate-200">
                         <span class="text-slate-500">Dukungan Untuk:</span>
-                        <span id="simulator-candidate-details" class="font-bold text-slate-800">Putra 01</span>
+                        <span id="simulator-candidate-details" class="font-bold text-slate-800">Prince 01</span>
                     </div>
                     <div class="flex justify-between items-center text-xs py-2.5 border-b border-slate-200">
                         <span class="text-slate-500">Jumlah Vote:</span>
-                        <span id="simulator-vote-amount" class="font-bold text-amber-600">50 Votes</span>
+                        <span id="simulator-vote-amount" class="font-bold text-[#D4AF37]">50 Votes</span>
                     </div>
                     <div class="flex justify-between items-center text-xs py-2.5 border-b border-slate-200 mb-6">
                         <span class="text-slate-500">Total Pembayaran:</span>
-                        <span id="simulator-price-total" class="font-extrabold text-amber-600 text-sm">Rp 50.000</span>
+                        <span id="simulator-price-total" class="font-extrabold text-[#D4AF37] text-sm">Rp 50.000</span>
                     </div>
 
                     <!-- QRIS DISPLAY -->
                     <div id="simulator-qris-display" class="flex flex-col items-center">
-                        <div class="w-44 h-44 p-3 bg-white rounded-2xl shadow-xl flex items-center justify-center mb-4 border border-amber-500/20">
+                        <div class="w-44 h-44 p-3 bg-white rounded-2xl shadow-xl flex items-center justify-center mb-4 border border-[#D4AF37]/20">
                             <!-- Realistic QR Code Mock -->
                             <svg class="w-36 h-36 text-slate-800" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm1 1h2v2H5V5zm9-3h8v8h-8V2zm2 2v4h4V4h-4zm1 1h2v2h-2V5zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm1 1h2v2H5v-2zm12-3h3v2h-3v-2zm3 3h2v3h-2v-3zm-3 3h3v2h-3v-2zm-3-6h2v3h-2v-3zm3 0h2v2h-2v-2zm-3 3h2v5h-2v-5zm6-3h2v2h-2v-2zm0 5h2v3h-2v-3zm-6-2h2v2h-2v-2zm3 2h2v2h-2v-2z"/>
@@ -914,11 +1043,11 @@
 
                     <!-- VIRTUAL ACCOUNT DISPLAY -->
                     <div id="simulator-va-display" class="hidden text-left space-y-3">
-                        <div class="p-4 rounded-xl bg-white border border-amber-500/20 shadow-sm">
+                        <div class="p-4 rounded-xl bg-white border border-[#D4AF37]/20 shadow-sm">
                             <span class="text-[10px] text-slate-500 uppercase tracking-wider block mb-1">Nomor Virtual Account</span>
                             <div class="flex justify-between items-center">
                                 <span id="simulator-va-number" class="text-lg font-bold tracking-widest text-slate-800 font-serif">88270812345678</span>
-                                <button onclick="copyVaText()" class="text-[10px] uppercase font-bold text-amber-700 border border-amber-500/30 px-2.5 py-1 rounded hover:bg-amber-50 transition-all bg-white">Salin</button>
+                                <button onclick="copyVaText()" class="text-[10px] uppercase font-bold text-[#D4AF37] border border-[#D4AF37]/30 px-2.5 py-1 rounded hover:bg-[#D4AF37]/5 transition-all bg-white">Salin</button>
                             </div>
                         </div>
                         <div class="text-xs text-slate-600 space-y-1">
@@ -992,9 +1121,8 @@
 
     <!-- ==================== 🎉 CLIENT JS INTERACTION ==================== -->
     <script>
-        // Set Countdown timer target: 12 days from now
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 12);
+        // Set Countdown timer target from database settings
+        const targetDate = new Date("{{ $votingEnd }}");
         
         function updateCountdown() {
             const now = new Date().getTime();
@@ -1010,28 +1138,13 @@
                 if (difference < 0) {
                     countdownEl.innerHTML = "Voting Selesai";
                 } else {
-                    countdownEl.innerHTML = `${days}h : ${hours}j : ${minutes}m : ${seconds}d`;
+                    countdownEl.innerHTML = `${days} Hari ${hours} Jam ${minutes} Menit ${seconds} Detik`;
                 }
             }
         }
         
         setInterval(updateCountdown, 1000);
         updateCountdown();
-
-        // 3D Card Tilt Effect on Mouse Move
-        document.querySelectorAll('.candidate-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width/2;
-                const y = e.clientY - rect.top - rect.height/2;
-                
-                card.style.transform = `perspective(1000px) rotateY(${x / 12}deg) rotateX(${-y / 12}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
-            });
-        });
 
         // Search & Filter
         function filterCandidates() {
@@ -1073,13 +1186,13 @@
             const boardPutri = document.getElementById('leaderboard-putri');
 
             if (category === 'putra') {
-                tabPutra.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-sm transition-all duration-300 bg-gradient-to-r from-amber-600 to-yellow-500 text-emerald-950 shadow-md";
-                tabPutri.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-sm transition-all duration-300 border border-gray-800 text-gray-400 hover:text-white";
+                tabPutra.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-[12px] transition-all duration-300 btn-shimmer shadow-md uppercase";
+                tabPutri.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-[12px] transition-all duration-300 btn-outline-gold uppercase";
                 boardPutra.classList.remove('hidden');
                 boardPutri.classList.add('hidden');
             } else {
-                tabPutri.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-sm transition-all duration-300 bg-gradient-to-r from-amber-600 to-yellow-500 text-emerald-950 shadow-md";
-                tabPutra.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-sm transition-all duration-300 border border-gray-800 text-gray-400 hover:text-white";
+                tabPutri.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-[12px] transition-all duration-300 btn-shimmer shadow-md uppercase";
+                tabPutra.className = "px-6 py-2.5 rounded-full font-semibold tracking-wider text-[12px] transition-all duration-300 btn-outline-gold uppercase";
                 boardPutri.classList.remove('hidden');
                 boardPutra.classList.add('hidden');
             }
@@ -1179,16 +1292,16 @@
 
             // Update border visual
             document.querySelectorAll('.package-card').forEach(card => {
-                card.classList.remove('border-amber-500', 'border-amber-500/40', 'bg-amber-500/5');
+                card.classList.remove('border-[#D4AF37]', 'border-[#D4AF37]/40', 'bg-[#D4AF37]/5');
                 card.classList.add('border-gray-800', 'bg-emerald-950/5');
             });
 
             // Highlight selected card
             const cards = document.querySelectorAll('.package-card');
-            if (amount === 5) cards[0].className = "package-card p-3 rounded-xl border border-amber-500/50 bg-amber-500/5 text-left transition-all relative overflow-hidden group";
-            if (amount === 25) cards[1].className = "package-card p-3 rounded-xl border border-amber-500/50 bg-amber-500/5 text-left transition-all relative overflow-hidden group";
-            if (amount === 50) cards[2].className = "package-card p-3 rounded-xl border border-amber-500/50 bg-amber-500/5 text-left transition-all relative overflow-hidden group";
-            if (amount === 100) cards[3].className = "package-card p-3 rounded-xl border border-amber-500/50 bg-amber-500/5 text-left transition-all relative overflow-hidden group shadow-lg shadow-amber-500/5";
+            if (amount === 5) cards[0].className = "package-card p-3 rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/5 text-left transition-all relative overflow-hidden group";
+            if (amount === 25) cards[1].className = "package-card p-3 rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/5 text-left transition-all relative overflow-hidden group";
+            if (amount === 50) cards[2].className = "package-card p-3 rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/5 text-left transition-all relative overflow-hidden group";
+            if (amount === 100) cards[3].className = "package-card p-3 rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/5 text-left transition-all relative overflow-hidden group shadow-lg shadow-[#D4AF37]/5";
         }
 
         function calculateCustomPrice(value) {
@@ -1211,14 +1324,14 @@
 
             // Update visuals
             document.querySelectorAll('.payment-method-card').forEach(card => {
-                card.className = "payment-method-card p-4 rounded-xl border border-gray-800 hover:border-amber-500/30 bg-emerald-950/5 text-left transition-all flex items-center justify-between group";
+                card.className = "payment-method-card p-4 rounded-xl border border-gray-800 hover:border-[#D4AF37]/30 bg-emerald-950/5 text-left transition-all flex items-center justify-between group";
                 card.querySelector('.rounded-full').className = "w-2.5 h-2.5 rounded-full bg-gray-800";
             });
 
             // Find selected button
             const btn = event.currentTarget;
-            btn.className = "payment-method-card p-4 rounded-xl border border-amber-500/50 bg-amber-500/5 text-left transition-all flex items-center justify-between group";
-            btn.querySelector('.rounded-full').className = "w-2.5 h-2.5 rounded-full bg-amber-500";
+            btn.className = "payment-method-card p-4 rounded-xl border border-[#D4AF37]/50 bg-[#D4AF37]/5 text-left transition-all flex items-center justify-between group";
+            btn.querySelector('.rounded-full').className = "w-2.5 h-2.5 rounded-full bg-[#D4AF37]";
         }
 
         function goToStep2() {
@@ -1233,8 +1346,8 @@
             }
 
             // Update dots
-            document.getElementById('step-dot-2').classList.replace('bg-gray-800', 'bg-amber-500');
-            document.getElementById('step-line-1').classList.replace('bg-gray-800', 'bg-amber-500/50');
+            document.getElementById('step-dot-2').classList.replace('bg-gray-800', 'bg-[#D4AF37]');
+            document.getElementById('step-line-1').classList.replace('bg-gray-800', 'bg-[#D4AF37]/50');
 
             document.getElementById('checkout-step-1').classList.add('hidden');
             document.getElementById('checkout-step-2').classList.remove('hidden');
@@ -1242,14 +1355,14 @@
 
         function backToStep(num) {
             if (num === 1) {
-                document.getElementById('step-dot-2').classList.replace('bg-amber-500', 'bg-gray-800');
-                document.getElementById('step-line-1').classList.replace('bg-amber-500/50', 'bg-gray-800');
+                document.getElementById('step-dot-2').classList.replace('bg-[#D4AF37]', 'bg-gray-800');
+                document.getElementById('step-line-1').classList.replace('bg-[#D4AF37]/50', 'bg-gray-800');
                 
                 document.getElementById('checkout-step-2').classList.add('hidden');
                 document.getElementById('checkout-step-1').classList.remove('hidden');
             } else if (num === 2) {
-                document.getElementById('step-dot-3').classList.replace('bg-amber-500', 'bg-gray-800');
-                document.getElementById('step-line-2').classList.replace('bg-amber-500/50', 'bg-gray-800');
+                document.getElementById('step-dot-3').classList.replace('bg-[#D4AF37]', 'bg-gray-800');
+                document.getElementById('step-line-2').classList.replace('bg-[#D4AF37]/50', 'bg-gray-800');
 
                 document.getElementById('checkout-step-3').classList.add('hidden');
                 document.getElementById('checkout-step-2').classList.remove('hidden');
@@ -1348,8 +1461,8 @@
                         }
 
                         // Move to Step 3
-                        document.getElementById('step-dot-3').classList.replace('bg-gray-800', 'bg-amber-500');
-                        document.getElementById('step-line-2').classList.replace('bg-gray-800', 'bg-amber-500/50');
+                        document.getElementById('step-dot-3').classList.replace('bg-gray-800', 'bg-[#D4AF37]');
+                        document.getElementById('step-line-2').classList.replace('bg-gray-800', 'bg-[#D4AF37]/50');
 
                         document.getElementById('checkout-step-2').classList.add('hidden');
                         document.getElementById('checkout-step-3').classList.remove('hidden');
@@ -1398,12 +1511,12 @@
                     // Update certificate download link & WhatsApp Share link
                     document.getElementById('success-certificate-btn').href = `/vote/receipt/${data.data.invoice_id}`;
                     
-                    const shareText = encodeURIComponent(`Halo! Saya baru saja memberikan dukungan suara sebanyak ${data.data.vote_amount} vote untuk Duta Kampus favorit saya ${data.data.candidate_name} di e-voting Duta Kampus UIN Madura 2026! Mari ikut dukung finalis favoritmu sekarang! ✨🏆`);
+                    const shareText = encodeURIComponent(`Halo! Saya baru saja memberikan dukungan suara sebanyak ${data.data.vote_amount} vote untuk Duta Kampus favorit saya ${data.data.candidate_name} di e-voting Duta Kampus UIN Madura {{ \App\Models\Setting::getValue('event_year', '2026') }}! Mari ikut dukung finalis favoritmu sekarang! ✨🏆`);
                     document.getElementById('success-whatsapp-btn').href = `https://wa.me/?text=${shareText}`;
 
                     // Update tracker dots
-                    document.getElementById('step-dot-4').classList.replace('bg-gray-800', 'bg-amber-500');
-                    document.getElementById('step-line-3').classList.replace('bg-gray-800', 'bg-amber-500/50');
+                    document.getElementById('step-dot-4').classList.replace('bg-gray-800', 'bg-[#D4AF37]');
+                    document.getElementById('step-line-3').classList.replace('bg-gray-800', 'bg-[#D4AF37]/50');
 
                     // Switch panels
                     document.getElementById('checkout-step-3').classList.add('hidden');
@@ -1449,7 +1562,7 @@
                         const info = data.data;
                         const statusColor = info.payment_status === 'success' 
                             ? 'text-violet-400 border-violet-500/20 bg-violet-500/5' 
-                            : 'text-amber-400 border-amber-500/20 bg-amber-500/5';
+                            : 'text-[#D4AF37] border-[#D4AF37]/20 bg-[#D4AF37]/5';
 
                         container.innerHTML = `
                             <div class="flex justify-between items-start flex-col sm:flex-row gap-4">
@@ -1472,7 +1585,7 @@
                             <div class="flex justify-between items-center flex-wrap gap-4 text-xs text-gray-500">
                                 <span>Metode: ${info.payment_method} | Tanggal: ${info.completed_at || 'Belum Terbayar'}</span>
                                 ${info.payment_status === 'success' ? `
-                                    <a href="/vote/receipt/${info.id}" target="_blank" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-amber-950 font-bold uppercase tracking-wider rounded-lg transition-all">
+                                    <a href="/vote/receipt/${info.id}" target="_blank" class="px-4 py-2 bg-[#D4AF37] hover:bg-[#C5A028] text-[#2C2416] font-bold uppercase tracking-wider rounded-lg transition-all">
                                         Cetak Sertifikat Bukti Vote
                                     </a>
                                 ` : ''}

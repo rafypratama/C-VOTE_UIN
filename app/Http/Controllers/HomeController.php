@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -46,6 +47,9 @@ class HomeController extends Controller
         if ($podiumPutri->has(0)) $podiumPutriAesthetic->push($podiumPutri[0]); // 1st
         if ($podiumPutri->has(2)) $podiumPutriAesthetic->push($podiumPutri[2]); // 3rd
 
+        // Voting period from settings
+        $votingEnd = Setting::getValue('voting_end', now()->addDays(12)->toDateTimeString());
+
         return view('welcome', compact(
             'candidates',
             'putraLeaderboard',
@@ -54,7 +58,8 @@ class HomeController extends Controller
             'podiumPutriAesthetic',
             'totalVotes',
             'totalCandidates',
-            'totalFaculties'
+            'totalFaculties',
+            'votingEnd'
         ));
     }
 

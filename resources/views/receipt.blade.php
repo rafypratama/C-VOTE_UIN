@@ -338,7 +338,7 @@
             </div>
             <div style="text-align: center;">
                 <div class="cert-logo">PRINCE & PRINCESS</div>
-                <div class="cert-sublogo">ENGLISH DEPARTMENT UIN MADURA 2026</div>
+                <div class="cert-sublogo">ENGLISH DEPARTMENT UIN MADURA {{ \App\Models\Setting::getValue('event_year', '2026') }}</div>
             </div>
 
         </div>
@@ -373,7 +373,7 @@
             <div class="gold-seal-container">
                 <div class="gold-seal">
                     <div class="gold-seal-inner">
-                        PRINCE &<br>PRINCESS<br>ESA 2026
+                        PRINCE &<br>PRINCESS<br>ESA {{ \App\Models\Setting::getValue('event_year', '2026') }}
                     </div>
                     <div class="seal-ribbon ribbon-left"></div>
                     <div class="seal-ribbon ribbon-right"></div>
